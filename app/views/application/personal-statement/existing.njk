@@ -1,0 +1,20 @@
+{% extends "_form.njk" %}
+
+{% set parent = "University of Bristol" %}
+{% set title = "Which statement do you want to use?" %}
+{% set formaction = paths.current %}
+{% block pageNavigation %}{{ govukBackLink({ href: paths.back }) }}{% endblock %}
+
+{% block primary %}
+  {{ govukRadios({
+    items: [{
+      text: "Yes, write a new one"
+    }, {
+      text: "No, use an existing statement"
+    }]
+  } | decorateApplicationAttributes(["statement", "write-new"])) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+{% endblock %}

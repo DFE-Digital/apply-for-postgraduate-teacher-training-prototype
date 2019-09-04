@@ -1,0 +1,41 @@
+{% extends "_form.njk" %}
+
+{% set parent = "University of Bristol" %}
+{% set title = "Do you want to use a different personal statement?" %}
+{% set formaction = "/application/" + applicationId + "/personal-statement/" + providerCode + "/copy" %}
+{% block pageNavigation %}
+  {% if referrer %}
+    {{ govukBackLink({
+      href: referrer
+    }) }}
+  {% else %}
+    {{ govukBackLink({
+      href: "/application/" + applicationId,
+      text: "Back to application"
+    }) }}
+  {% endif %}
+{% endblock %}
+
+{% block primary %}
+  <p>You can tailor your personal statement for each provider you apply to.</p>
+
+  {{ govukRadios({
+    items: [{
+      value: "new",
+      text: "Yes, write a new one",
+      hint: {
+        text: "We’ll copy your existing statement so you can edit it"
+      }
+    }, {
+      value: "existing",
+      text: "No, use my existing personal statement",
+      hint: {
+        text: "The same statement will be sent to each provider"
+      }
+    }]
+  } | decorateApplicationAttributes(["personal-statements", providerCode, "write-new"])) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+{% endblock %}

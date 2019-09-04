@@ -127,7 +127,7 @@
       {% set provider = providers[c.providerCode] %}
       {% set items = providerItems.push({
         text: provider.name,
-        href: applicationPath + "/personal-statement/" + provider.code + "/review",
+        href: applicationPath + "/personal-statement/" + provider.code,
         id: "cover-letter-" + provider.code,
         completed: applicationValue(["personal-statements", provider.code])
       }) %}
