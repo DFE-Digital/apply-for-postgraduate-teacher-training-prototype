@@ -1,0 +1,36 @@
+{% extends "_form.njk" %}
+
+{% set title = "Which course are you applying to?" %}
+{% set formaction = paths.next %}
+{% set applicationPath = "/application/" + applicationId %}
+
+{% block pageNavigation %}
+  {{ govukBackLink({
+    href: paths.back
+  }) }}
+{% endblock %}
+
+{% block primary %}
+    {{ govukRadios({
+      items: [{
+        html: "<span class=\"govuk-heading-m govuk-!-margin-bottom-0\">Dance (W5X1)</span>Royal Academy of Dance"
+      }, {
+        html: "<span class=\"govuk-heading-m govuk-!-margin-bottom-0\">Primary (A123)</span>Gorse SCITT"
+      }, {
+        divider: "or"
+      }, {
+        text: "Another course",
+        label: {
+          classes: "govuk-label--m"
+        },
+        value: "another",
+        conditional: {
+          html: courseAutocompleteHtml
+        }
+      }]
+    } | decorateApplicationAttributes(["temporaryChoices", choiceId, "courseFromFind"])) }}
+
+    {{ govukButton({
+      text: "Continue"
+    }) }}
+{% endblock %}
