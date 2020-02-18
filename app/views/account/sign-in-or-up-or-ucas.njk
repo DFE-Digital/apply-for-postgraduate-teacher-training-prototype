@@ -1,0 +1,61 @@
+{% extends "_form.njk" %}
+
+{% set title = "You can apply for this course using a new GOV.UK service" %}
+{% set formaction = "/send-email/sign-in" %}
+{% set hasAccountLinks = false %}
+
+{% block pageNavigation %}
+  {{ govukBackLink({
+    href: "/"
+  }) }}
+{% endblock %}
+
+{% block primary %}
+  <p>Apply for teacher training is a streamlined new GOV.UK service which is designed to make application easier. It comes with personalised support for candidates.</p>
+
+  {% set emailHtml %}
+  <p class="govuk-body">Enter the email address you used to register with, and we will send you a link to sign in.</p>
+  {{ govukInput({
+    label: {
+      text: "Email address",
+      classes: "govuk-label--s"
+    },
+    classes: "govuk-!-width-two-thirds",
+    attributes: {
+      spellcheck: "false"
+    },
+    autocomplete: "email",
+    type: "email",
+    id: "account-email",
+    name: "account[email]"
+  }) }}
+  {% endset %}
+
+  {{ govukRadios({
+    idPrefix: "have-account",
+    name: "have-account",
+    fieldset: {
+      legend: {
+        text: "How do you want to apply?",
+        classes: "govuk-fieldset__legend--m"
+      }
+    },
+    items: [{
+      value: "yes",
+      text: "Sign in to new service",
+      conditional: {
+        html: emailHtml
+      }
+    }, {
+      value: "no",
+      text: "Create an account for new service"
+    }, {
+      value: "no",
+      text: "Apply through UCAS"
+    }]
+  }) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+{% endblock %}

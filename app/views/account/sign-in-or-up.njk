@@ -1,0 +1,56 @@
+{% extends "_form.njk" %}
+
+{% set title = "Sign in or create an account" %}
+{% set formaction = "/send-email/sign-in" %}
+{% set hasAccountLinks = false %}
+
+{% block pageNavigation %}
+  {{ govukBackLink({
+    href: "/"
+  }) }}
+{% endblock %}
+
+{% block primary %}
+  {% set emailHtml %}
+  <p class="govuk-body">Enter the email address you used to register with, and we will send you a link to sign in.</p>
+  {{ govukInput({
+    label: {
+      text: "Email address",
+      classes: "govuk-label--s"
+    },
+    classes: "govuk-!-width-two-thirds",
+    attributes: {
+      spellcheck: "false"
+    },
+    autocomplete: "email",
+    type: "email",
+    id: "account-email",
+    name: "account[email]"
+  }) }}
+  {% endset %}
+
+  {{ govukRadios({
+    idPrefix: "have-account",
+    name: "have-account",
+    fieldset: {
+      legend: {
+        text: "Do you already have an account?",
+        classes: "govuk-fieldset__legend--m"
+      }
+    },
+    items: [{
+      value: "yes",
+      text: "Yes, sign in",
+      conditional: {
+        html: emailHtml
+      }
+    }, {
+      value: "no",
+      text: "No, I need to create an account"
+    }]
+  }) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+{% endblock %}
