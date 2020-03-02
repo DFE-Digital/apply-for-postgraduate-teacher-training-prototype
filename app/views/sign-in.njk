@@ -1,0 +1,24 @@
+{% extends "_content.njk" %}
+
+{% set title = "Sign in" %}
+
+{% block primary %}
+  <p class="govuk-body-l">You must sign in to your account to manage teacher training applications.</p>
+
+  <div class="app-banner app-banner--warning govuk-!-margin-bottom-5">
+    <div class="app-banner__message">
+      <h2 class="govuk-heading-m">We’re having problems with DfE Sign-in</h2>
+      <p>Some of our users are having trouble using DfE Sign-in. We’re working on the problem now. If you can’t sign in, try again soon.</p>
+    </div>
+  </div>
+
+  {{ govukButton({
+    text: "Sign in using DfE Sign-in",
+    href: "/account",
+    classes: "govuk-!-margin-top-4 govuk-!-margin-bottom-3"
+  }) }}
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <h2 class="govuk-heading-m">Ask for an account</h2>
+  <p class="govuk-body">Don’t have an account? You can get one by emailing <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a>. Please include the full names and email addresses of anyone who needs access.</p>
+{% endblock %}
