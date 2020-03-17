@@ -28,61 +28,61 @@
     text: "Please review your changes carefully before you resubmit. Your application can only be resubmitted once."
   }) if status == "amending" }}
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
+  <h2 class="govuk-heading-l">Courses</h2>
   {% set choices = applicationValue(["choices"]) | toArray %}
   {% set showChoiceStatus = false %}
   {% set showIncomplete = true %}
   {% include "_includes/review/choices.njk" %}
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27">About you</h2>
-  <h3 class="govuk-heading-m">Personal details</h3>
+  <h2 class="govuk-heading-l">About you</h2>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Personal details</h3>
   {% include "_includes/review/personal-details.njk" %}
 
-  <h3 class="govuk-heading-m">Contact details</h3>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Contact details</h3>
   {% set contactDetails = applicationValue(["contact-details"]) %}
   {% include "_includes/review/contact-details.njk" %}
 
-  <h3 class="govuk-heading-m">Asking for support if you have a disability</h3>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Asking for support if you have a disability</h3>
   {% include "_includes/review/reasonable-adjustments.njk" %}
 
-  <h3 class="govuk-heading-m">Your suitability to work with children</h3>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Your suitability to work with children</h3>
   {% include "_includes/review/suitability.njk" %}
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27">Work history</h2>
+  <h2 class="govuk-heading-l">Work history</h2>
   {% include "_includes/review/work-history.njk" %}
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27">Unpaid experience and volunteering</h2>
+  <h2 class="govuk-heading-l">Unpaid experience and volunteering</h2>
   {% include "_includes/review/school-experience.njk" %}
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>
-  <h3 class="govuk-heading-m">Degree(s)</h3>
+  <h2 class="govuk-heading-l">Qualifications</h2>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Degree(s)</h3>
   {% include "_includes/review/degrees.njk" %}
 
-  <h3 class="govuk-heading-m">Maths GCSE or equivalent</h3>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Maths GCSE or equivalent</h3>
   {% set id = "maths" %}
   {% include "_includes/review/gcse.njk" %}
 
-  <h3 class="govuk-heading-m">English GCSE or equivalent</h3>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">English GCSE or equivalent</h3>
   {% set id = "english" %}
   {% include "_includes/review/gcse.njk" %}
 
   {% if hasPrimaryChoices() or applicationValue(["gcse", "science"]) %}
-    <h3 class="govuk-heading-m">Science GCSE or equivalent</h3>
+    <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Science GCSE or equivalent</h3>
     {% set id = "science" %}
     {% include "_includes/review/gcse.njk" %}
   {% endif %}
 
-  <h3 class="govuk-heading-m">Other relevant qualifications</h3>
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">Other relevant qualifications</h3>
   {% include "_includes/review/other-qualifications.njk" %}
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27">Personal statement</h2>
+  <h2 class="govuk-heading-l">Personal statement</h2>
   {% include "_includes/review/personal-statement.njk" %}
   {% include "_includes/review/subject-knowledge.njk" %}
   {% if data.flags.interview_preferences == true %}
     {% include "_includes/review/interview.njk" %}
   {% endif %}
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
+  <h2 class="govuk-heading-l">References</h2>
   {% set references = applicationValue(["referees"]) %}
   {% include "_includes/review/references.njk" %}
 

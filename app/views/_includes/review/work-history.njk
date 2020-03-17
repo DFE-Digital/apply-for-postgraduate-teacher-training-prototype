@@ -64,20 +64,10 @@
           html: breakHtml
         }) }}
       {% else %}
-        {% set titleHtml %}
-          {{ item.role }}
-          {%- if item["worked-with-children"] == "Yes" %}
-          <span class="app-summary-card__meta">{{ appIcon({
-              classes: "govuk-!-margin-right-1",
-              icon: "tick",
-              hidden: true
-            }) }} This role involved working with children</span>
-          {%- endif %}
-        {% endset %}
         {{ appSummaryCard({
           classes: "govuk-!-margin-bottom-6",
           headingLevel: 3,
-          titleHtml: titleHtml,
+          titleText: item.role,
           actions: {
             items: [{
               href: applicationPath + "/work-history/" + item.id + "/delete?referrer=" + referrer,

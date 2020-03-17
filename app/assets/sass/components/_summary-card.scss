@@ -1,28 +1,12 @@
-
-// .app-summary-card--error {
-//   border: 5px solid govuk-colour('red') !important;
-// }
-
-
 .app-summary-card {
-  border: 1px solid $govuk-border-colour;
-
   &--incomplete {
-    border: 5px solid govuk-colour('blue');
-
     .app-summary-card__title {
       color: govuk-colour('blue');
       font-weight: bold !important;
     }
-
-    .app-summary-card__header {
-      background-color: govuk-colour("white") !important;
-    }
   }
 
   &--error {
-    border: 5px solid govuk-colour('red');
-
     .app-summary-card__title {
       color: govuk-colour('red');
       font-weight: bold !important;
@@ -31,30 +15,19 @@
   }
 
   .app-summary-card__header {
-    align-items: center;
-    background-color: govuk-colour("light-grey");
-    padding: govuk-spacing(3);
-
     @include govuk-media-query($from: desktop) {
-      display: flex;
-      justify-content: space-between;
+      // display: flex;
       align-items: start;
     }
   }
 
   .app-summary-card__title {
-    @include govuk-font($size: 19);
-    margin: 0;
-  }
-
-  .app-summary-card__meta {
-    @include govuk-font($size: 16);
-    display: block;
-    margin: 0;
+    display: inline-block;
   }
 
   .app-summary-card__actions {
     @include govuk-font($size: 19);
+    display: inline-block;
   }
 
   .app-summary-card__actions-list {
@@ -63,40 +36,20 @@
     padding: 0;
   }
 
+  .app-summary-card__actions a {
+    @include govuk-media-query($from: desktop) {
+      margin-left: govuk-spacing(2);
+    }
+  }
+
   .app-summary-card__actions-list-item {
     display: block;
     white-space: nowrap;
 
     @include govuk-media-query($from: desktop) {
       display: inline-block;
-      margin-left: govuk-spacing(2);
       text-align: right;
     }
-  }
-
-  .app-summary-card__actions-list-item:first-child {
-    margin-left: 0;
-  }
-
-  .app-summary-card__body {
-    @include govuk-font($size: 19);
-    padding: govuk-spacing(3);
-  }
-
-  // Summary list component overrides
-  .govuk-summary-list {
-    margin: #{govuk-spacing(2) * -1} 0;
-  }
-
-  @include govuk-media-query($until: desktop) {
-    .govuk-summary-list {
-      padding-top: govuk-spacing(3);
-    }
-  }
-
-  .govuk-summary-list__row:last-child,
-  .govuk-summary-list__row:last-child > * {
-    border-bottom: 0;
   }
 }
 

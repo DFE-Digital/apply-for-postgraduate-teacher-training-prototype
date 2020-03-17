@@ -85,5 +85,19 @@
         visuallyHiddenText: "dates"
       }]
     } if canAmend
+  }, {
+    key: {
+      text: "Role involved working with children?"
+    },
+    value: {
+      text: item["worked-with-children"]
+    },
+    actions: {
+      items: [{
+        href: changeHref,
+        text: "Change",
+        visuallyHiddenText: "dates"
+      }]
+    } if canAmend
   }]
 }) }}
