@@ -1,7 +1,7 @@
 {% extends "_form.njk" %}
 
 {% set applicationPath = "/application/" + applicationId %}
-{% set title = "Qualification details" %}
+{% set title = "Add A level qualifications" %}
 {% set nextType = applicationValue(["other-qualifications", id, "type-uk"]) or type %}
 
 {% block pageNavigation %}
@@ -17,38 +17,6 @@
 {% endblock %}
 
 {% block primary %}
-  {% if type == "GCSE" %}
-    {{ appAutocomplete({
-      label: {
-        text: "Subject",
-        classes: "govuk-label--m"
-      },
-      items: gcseSubjects
-    } | decorateApplicationAttributes(["other-qualifications", id, "subject"])) }}
-  {% else %}
-    {{ govukInput({
-      label: {
-        text: "Subject",
-        classes: "govuk-label--m"
-      }
-    } | decorateApplicationAttributes(["other-qualifications", id, "subject"])) }}
-  {% endif %}
-
-  {{ govukInput({
-    label: {
-      text: "Grade",
-      classes: "govuk-label--m"
-    },
-    classes: "govuk-input--width-10"
-  } | decorateApplicationAttributes(["other-qualifications", id, "grade"])) }}
-
-  {{ govukInput({
-    label: {
-      text: "Year qualification was awarded",
-      classes: "govuk-label--m"
-    },
-    classes: "govuk-input--width-4"
-  } | decorateApplicationAttributes(["other-qualifications", id, "year"])) }}
 
   {{ govukInput({
     label: {
@@ -57,28 +25,118 @@
     }
   } | decorateApplicationAttributes(["other-qualifications", id, "org"])) }}
 
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-!-font-size-24" style="width: 70%">A level subject</th>
+        <th class="govuk-table__header govuk-!-font-size-24">Grade</th>
+        <th class="govuk-table__header govuk-!-font-size-24">Year</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            }
+          } | decorateApplicationAttributes(["other-qualifications", id, "subject"])) }}
+        </td>
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            },
+            classes: "govuk-input--width-4"
+          } | decorateApplicationAttributes(["other-qualifications", id, "grade"])) }}
+        </td>
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            },
+            classes: "govuk-input--width-4"
+          } | decorateApplicationAttributes(["other-qualifications", id, "year"])) }}
+        </td>
+      </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            }
+          } | decorateApplicationAttributes(["other-qualifications", id, "subject"])) }}
+        </td>
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            },
+            classes: "govuk-input--width-4"
+          } | decorateApplicationAttributes(["other-qualifications", id, "grade"])) }}
+        </td>
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            },
+            classes: "govuk-input--width-4"
+          } | decorateApplicationAttributes(["other-qualifications", id, "year"])) }}
+        </td>
+      </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            }
+          } | decorateApplicationAttributes(["other-qualifications", id, "subject"])) }}
+        </td>
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            },
+            classes: "govuk-input--width-4"
+          } | decorateApplicationAttributes(["other-qualifications", id, "grade"])) }}
+        </td>
+        <td class="govuk-table__cell">
+          {{ govukInput({
+            formGroup: {
+              classes: "govuk-!-margin-bottom-0"
+            },
+            classes: "govuk-input--width-4"
+          } | decorateApplicationAttributes(["other-qualifications", id, "year"])) }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {# Remove the class 'govuk-button--start' for a standard button #}
+  {{ govukButton({
+      text: 'Add another A level',
+      href: '#',
+      classes: 'govuk-!-margin-bottom-8 govuk-button--secondary'
+  }) }}
+
   {# Only ask if want to add another if:
     * not editing an existing item
     * not referred from a review page (which has an ‘Add another…’ button)
     * feature flag enabled
   #}
   {% if action != "edit" and not referrer %}
-    <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-5">
+    {# <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-5"> #}
     {{ govukRadios({
       name: "next",
       fieldset: {
         legend: {
-          text: "Do you want to add another qualification?",
+          text: "Do you want to add more qualifications?",
           classes: "govuk-fieldset__legend--m"
         }
       },
       items: [{
-        value: "add-type",
-        text: "Yes, add another " + nextType,
-        checked: true
-      }, {
         value: "add",
-        text: "Yes, add a different qualification"
+        text: "Yes, add more qualifications"
       }, {
         value: "review",
         text: "No, not right now"
