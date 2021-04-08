@@ -6,7 +6,7 @@
   {% set title = (action | capitalize) + " another degree" %}
   {% set degreeTypes = degree.types.all %}
 {% else %}
-  {% set title = (action | capitalize) + " undergraduate degree" %}
+  {% set title = (action | capitalize) + " degree or equivalent" %}
   {% set degreeTypes = degree.types.undergraduate %}
 {% endif %}
 {% set allowsFeedback = true %}
@@ -33,7 +33,7 @@
 
 {% block primary %}
   {% if degreeCount < 1 %}
-    <p class="govuk-body">You need an undergraduate degree to apply for teacher training. If you have further degrees, you can add them after.</p>
+    <p class="govuk-body">You need an undergraduate degree or an equivalent to apply for teacher training. If you have further degrees, you can add them after.</p>
   {% endif %}
 
   {% set ukConditionalHtml %}
@@ -55,26 +55,50 @@
     } | decorateApplicationAttributes(["degree", id, "typeNonUk"])) }}
   {% endset %}
 
+  {% set equivalentHtml %}
+    {{ govukTextarea({
+      label: {
+        text: "Describe your qualification equivalent to a degree"
+      },
+      hint: {
+        html: "Any equivalent qualification must be one single qualification, not an aggregation of a number of separate qualifications. Providers will assess whether your qualification is equivalent to a degree or not."
+      }
+    } | decorateApplicationAttributes(["degree", id, "typeNonUk"])) }}
+  {% endset %}
+
   {{ govukRadios({
     fieldset: {
       legend: {
-        text: "What type of degree do you want to add?",
+        text: "What type of qualification do you want to add?",
         classes: "govuk-label--m"
       }
     },
-    items: [{
+    items: [
+    {
       value: "domestic",
-      text: "UK degree",
+      text: "Degree from the UK",
       conditional: {
         html: ukConditionalHtml
       }
-    }, {
+    },
+    {
       value: "international",
-      text: "Non-UK degree",
+      text: "Degree from another country",
       conditional: {
         html: internationalConditionalHtml
       }
-    }]
+    },
+    {
+      divider: "or"
+    },
+    {
+      value: "equivalent",
+      text: "A qualification equivalent to a degree",
+      conditional: {
+        html: equivalentHtml
+      }
+    }
+    ]
   } | decorateApplicationAttributes(["degree", id, "provenance"])) }}
 
   {{ govukButton({
