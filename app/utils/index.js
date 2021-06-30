@@ -19,6 +19,11 @@ const applicationData = (req) => {
   return req.session.data.applications[applicationId]
 }
 
+// Returns a copy of an object (instead of referencing it)
+const copyObject = (obj) => {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 const capitaliseFirstLetter = str => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
@@ -122,6 +127,47 @@ const hasStartedApplications = (req) => {
   }
 }
 
+const acceptedChoice = (req) => {
+  return allChoices(req).find(function(choice) {
+    return (choice.status == 'Offer accepted' || choice.status == 'Offer deferred' || choice.status == 'Offer confirmed')
+  })
+}
+
+// Pending choices are waiting on a decision from provider or candidate
+const pendingChoices = (req) => {
+  return allChoices(req).filter(function(choice) {
+    return (choice.status == 'Awaiting decision' || choice.status == 'Offer received' )
+  })
+}
+
+// Pending choices are waiting on a decision from provider or candidate
+const choicesAwaitingProviderDecision = (req) => {
+  return allChoices(req).filter(function(choice) {
+    return (choice.status == 'Awaiting decision' )
+  })
+}
+
+// Unsubmitted choices don't have as status yet
+const submittedChoices = (req) => {
+  return allChoices(req).filter(function(choice) { return choice.status })
+}
+
+// Unsubmitted choices attached to a draft application
+const unsubmittedChoices = (req) => {
+  return allChoices(req).filter(function(choice) { return !choice.status })
+}
+
+// All choices regardless of state
+const allChoices = (req) => {
+  let choices = []
+
+  for (application of Object.values(req.session.data.applications)) {
+    choices.push(Object.values(application.choices))
+  }
+
+  return choices.flat()
+}
+
 const hasCompletedSection = section => {
   return section === 'true'
 }
@@ -199,5 +245,12 @@ module.exports = {
   hasSubmittedApplications,
   hasStartedApplications,
   toArray,
-  defaultSessionData
+  defaultSessionData,
+  copyObject,
+  allChoices,
+  submittedChoices,
+  unsubmittedChoices,
+  pendingChoices,
+  choicesAwaitingProviderDecision,
+  acceptedChoice
 }

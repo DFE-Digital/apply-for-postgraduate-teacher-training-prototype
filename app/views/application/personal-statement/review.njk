@@ -18,13 +18,11 @@
   {% include "_includes/review/personal-statement.njk" %}
 
   {% set hasFeedbackFromPreviousApplication = false %}
-  {% if applicationValue(["apply2"]) %}
-    {% for previousApplicationId in applicationValue("previousApplications") %}
-      {% for item in (data.applications[previousApplicationId].choices | toArray) %}
-        {% if item.feedback and item.feedback.qualityOfApplication and item.feedback.qualityOfApplication.personalStatement %}
-          {% set hasFeedbackFromPreviousApplication = true %}
-        {% endif %}
-      {% endfor %}
+  {% if applicationValue(["copiedFromApplicationId"]) %}
+    {% for item in (data.applications[applicationValue(["copiedFromApplicationId"])].choices | toArray) %}
+      {% if item.feedback and item.feedback.qualityOfApplication and item.feedback.qualityOfApplication.personalStatement %}
+        {% set hasFeedbackFromPreviousApplication = true %}
+      {% endif %}
     {% endfor %}
   {% endif %}
 

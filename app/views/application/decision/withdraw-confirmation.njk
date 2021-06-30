@@ -1,7 +1,7 @@
 {% extends "_form.njk" %}
 
 {% set title = "Course choice withdrawn" %}
-{% set formaction = "/dashboard/" + applicationId %}
+{% set formaction = "/dashboard/" %}
 
 {% block content %}
 <form{% if formaction %} action="{{ formaction }}"{% endif %} method="post">

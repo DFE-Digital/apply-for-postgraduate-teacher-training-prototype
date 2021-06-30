@@ -68,7 +68,7 @@
     {% if applicationValue(["status"]) == "started" %}
       {% set serviceUrl = "/application/" + applicationId %}
     {% else %}
-      {% set serviceUrl = "/dashboard/" + applicationId %}
+      {% set serviceUrl = "/dashboard/" %}
     {% endif %}
   {% else %}
     {% set serviceUrl = "/" %}

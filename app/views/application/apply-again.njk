@@ -4,7 +4,7 @@
 
 {% block pageNavigation %}
   {{ govukBackLink({
-    href: "/dashboard/" + applicationId
+    href: "/dashboard/"
   }) }}
 {% endblock %}
 
@@ -18,13 +18,13 @@
     <li>keep your references, so you will not need to request new ones</li>
   </ul>
 
-  <p>You can only apply to one course at a time at this stage of your application.</p>
-
   <hr class="govuk-section-break govuk-section-break--m">
-  {{ govukButton({
-    classes: "govuk-!-margin-bottom-5",
-    isStartButton: true,
-    text: "Start now",
-    href: "/application/" + applicationId + "/apply2"
-  }) }}
+
+  <form action="/application/apply-again" method="POST">
+    {{ govukButton({
+      classes: "govuk-!-margin-bottom-5",
+      isStartButton: true,
+      text: "Start now"
+    }) }}
+  </form>
 {% endblock %}

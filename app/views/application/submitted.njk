@@ -28,7 +28,7 @@
 
 {% block primary %}
   <section class="govuk-!-margin-bottom-8">
-  {% if applicationValue(["apply2"]) or choiceId or (applicationValue(["choices"]) | toArray | length == 1) %}
+  {% if applicationValue(["previousApplicationId"]) or choiceId or (applicationValue(["choices"]) | toArray | length == 1) %}
     <h2 class="govuk-heading-m govuk-!-font-size-27">Course</h2>
   {% else %}
     <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
@@ -41,6 +41,7 @@
     {% endif %}
     {% set showChoiceStatus = true %}
     {% set showIncomplete = true %}
+    {% set showChoiceFeedback = true %}
     {% include "_includes/review/choices.njk" %}
   </section>
 

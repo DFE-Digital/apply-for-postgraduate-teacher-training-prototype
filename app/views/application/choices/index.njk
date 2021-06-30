@@ -3,20 +3,12 @@
 {% set applicationPath = "/application/" + applicationId %}
 {% set formaction = applicationPath %}
 {% set choices = applicationValue("choices") | toArray %}
-{% set choicesCount = choices | length %}
-{% set choicesRemaining = 3 - choicesCount %}
-{% if choicesCount >= 1 %}
-  {% if applicationValue(["apply2"]) %}
-    {% set title = "Course choice" %}
-  {% else %}
-    {% set title = "Course choices" %}
-  {% endif %}
+
+{% set choicesRemaining = 3 - ((pendingChoices() | length) + (choices | length))  %}
+{% if choicesRemaining >= 1 or (choices | length) > 1 %}
+  {% set title = "Course choices" %}
 {% else %}
-  {% if applicationValue(["apply2"]) %}
-    {% set title = "Choosing a course" %}
-  {% else %}
-    {% set title = "Choosing courses" %}
-  {% endif %}
+  {% set title = "Course choice" %}
 {% endif %}
 
 {% block pageNavigation %}
@@ -37,17 +29,20 @@
 {% block primary %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      {% if choicesRemaining != 0 and not applicationValue(["apply2"]) %}
+
+      {% if choicesRemaining != 0 %}
 
         {% set addAnotherHtml %}
-
-          <p class="govuk-body">
-            {% if choicesRemaining == 1 %}
-              You can add 1 more course.
-            {% else %}
-              You can add {{ choicesRemaining }} more courses.
-            {% endif %}
-          </p>
+          <div class="govuk-!-width-two-thirds">
+            <p class="govuk-body">
+              You can add
+              {% if choicesRemaining == 1 %}
+                1 more course.
+              {% else %}
+                {{ choicesRemaining }} more courses.
+              {% endif %}
+            </p>
+          </div>
 
           {{ govukButton({
             classes: "govuk-button--secondary",
@@ -64,6 +59,7 @@
       {% set showChoiceStatus = false %}
       {% include "_includes/review/choices.njk" %}
 
+
       {{ govukRadios({
         fieldset: {
           classes: "govuk-!-width-two-thirds",
@@ -74,7 +70,7 @@
         },
         hint: {
           text: "You can add " + choicesRemaining + (" more courses" if choicesRemaining > 1 else " more course")
-        } if not applicationValue(["apply2"]) and choicesRemaining != 0,
+        } if choicesRemaining != 0,
         items: [{
           value: "true",
           text: "Yes, I’ve completed this section"

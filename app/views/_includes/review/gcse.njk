@@ -18,19 +18,17 @@
   {% set hasFeedbackFromPreviousApplication = false %}
   {% set feedbackFromPreviousApplications = "" %}
 
-  {% if applicationValue(["apply2"]) %}
-    {% for previousApplicationId in applicationValue("previousApplications") %}
-      {% for item in (data.applications[previousApplicationId].choices | toArray) %}
-        {% if id == "maths" and item.feedback and item.feedback.qualifications and item.feedback.qualifications.noMathsGCSEOrEquivalent %}
-          {% set hasFeedbackFromPreviousApplication = true %}
-          {% set feedbackFromPreviousApplications %}
-            <p class="govuk-body">You were unsuccessful with a previous application because you did not indicate that you have a grade 4 (C) or above in GCSE {{ id }} or equivalent.</p>
-            <p class="govuk-body">We recommend that, when you’ve chosen a training provider, you contact them for advice about getting the right qualification or demonstrating a standard equivalent in time for your course.</p>
-            <p class="govuk-body">You should ask if your provider offers or accepts ‘equivalency tests’, which show that you’ve reached the same educational level and breadth of knowledge as a {{ id }} GCSE grade 4 (C) or above. Ask if they recommend you do the test or if they will accept other evidence of attainment.</p>
-            <p class="govuk-body">If you are already working towards this qualification, you can indicate this by changing your answer to “I don’t have this qualification yet” and giving details.</p>
-          {% endset %}
-        {% endif %}
-      {% endfor %}
+  {% if applicationValue(["copiedFromApplicationId"]) %}
+    {% for item in (data.applications[applicationValue(["copiedFromApplicationId"])].choices | toArray) %}
+      {% if id == "maths" and item.feedback and item.feedback.qualifications and item.feedback.qualifications.noMathsGCSEOrEquivalent %}
+        {% set hasFeedbackFromPreviousApplication = true %}
+        {% set feedbackFromPreviousApplications %}
+          <p class="govuk-body">You were unsuccessful with a previous application because you did not indicate that you have a grade 4 (C) or above in GCSE {{ id }} or equivalent.</p>
+          <p class="govuk-body">We recommend that, when you’ve chosen a training provider, you contact them for advice about getting the right qualification or demonstrating a standard equivalent in time for your course.</p>
+          <p class="govuk-body">You should ask if your provider offers or accepts ‘equivalency tests’, which show that you’ve reached the same educational level and breadth of knowledge as a {{ id }} GCSE grade 4 (C) or above. Ask if they recommend you do the test or if they will accept other evidence of attainment.</p>
+          <p class="govuk-body">If you are already working towards this qualification, you can indicate this by changing your answer to “I don’t have this qualification yet” and giving details.</p>
+        {% endset %}
+      {% endif %}
     {% endfor %}
   {% endif %}
 

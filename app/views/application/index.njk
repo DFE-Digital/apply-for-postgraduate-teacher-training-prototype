@@ -9,29 +9,36 @@
 {% set referrer = applicationPath %}
 {% set international = applicationValue(["candidate", "otherNationality1"]) %}
 
-{% set apply2 = applicationValue("apply2") %}
+{% set copiedFromApplicationId = applicationValue("copiedFromApplicationId") %}
 
-{% macro tagClassesForSection(completed=false, apply2=false) %}
+{% macro tagClassesForSection(completed=false, copiedFromApplicationId=false) %}
   {% if completed == "true" %}
     govuk-tag
-  {% elif apply2 %}
+  {% elif copiedFromApplicationId %}
     govuk-tag--pink
   {% else %}
     govuk-tag--grey
   {% endif %}
 {% endmacro %}
 
-{% macro tagTextForSection(completed=false, apply2=false) %}
+{% macro tagTextForSection(completed=false, copiedFromApplicationId=false) %}
   {% if completed == "true" %}
     {{ completedTagText }}
-  {% elif apply2 %}
+  {% elif copiedFromApplicationId %}
     Review
   {% else %}
     {{ incompleteTagText }}
   {% endif %}
 {% endmacro %}
 
-{% if apply2 %}
+{% set hasPreviousApplications = false %}
+{% for a in data.applications | toArray %}
+  {% if a.status == 'submitted' %}
+    {% set hasPreviousApplications = true %}
+  {% endif %}
+{% endfor %}
+
+{% if hasPreviousApplications %}
   {% set title = "Your new application" %}
 {% else %}
   {% set title = "Your application" %}
@@ -55,8 +62,18 @@
   <p class="govuk-hint govuk-!-margin-bottom-8">Last saved on {{ "now" | date("d MMMM yyyy") }} at {{ "now" | date("t") }}</p>
 {% endblock %}
 
+{% block pageNavigation %}
+  {% if submittedChoices() | length > 0 %}
+    {{ govukBackLink({
+      text: "Back",
+      href: "/dashboard"
+    }) }}
+  {% endif %}
+{% endblock %}
+
 {% block primary %}
-  {% if apply2 %}
+
+  {% if copiedFromApplicationId %}
     {% set previousApplicationSummaryHtml %}
 
       {% for previousApplicationId in applicationValue("previousApplications") %}
@@ -76,16 +93,18 @@
   {% endif %}
 
   <section class="govuk-!-margin-bottom-8">
-    {% if apply2 %}
-      <h2 class="govuk-heading-m govuk-!-font-size-27">Course</h2>
-      <p class="govuk-body">You can apply to 1 course at a time at this stage of your application.</p>
+    <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
+    {% if closed == "true" %}
+      <p class="govuk-body">You can apply for courses from 13 October.</p>
     {% else %}
-      <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
-      {% if closed == "true" %}
-        <p class="govuk-body">You can apply for courses from 13 October.</p>
-      {% else %}
-        <p class="govuk-body">You can apply for up to 3 courses.</p>
-      {% endif %}
+      {% set choicesAllowed = 3 - (pendingChoices() | length) %}
+      <p class="govuk-body">You can apply for
+        {% if choicesAllowed == 1 %}
+          1 course.
+        {% else %}
+          up to {{ choicesAllowed }} courses.
+        {% endif %}
+      </p>
     {% endif %}
 
     {% if applicationValue("choices") | toArray | length == 0 %}
@@ -96,7 +115,7 @@
 
     {{ appTaskList({
       items: [{
-        text: "Choose your course" if apply2 else "Choose your courses",
+        text: "Choose your course" if choicesAllowed == 1 else "Choose your courses",
         href: choicesHref,
         id: "personal-information",
         tag: {
@@ -186,32 +205,32 @@
         href: applicationPath + "/gcse/english" + ("/review" if applicationValue(["gcse", "english"]) | length > 0),
         id: "english-gcse",
         tag: {
-          classes: tagClassesForSection(completed=applicationValue(["completed", "english"]), apply2=apply2),
-          text: tagTextForSection(completed=applicationValue(["completed", "english"]), apply2=apply2)
+          classes: tagClassesForSection(completed=applicationValue(["completed", "english"]), copiedFromApplicationId=copiedFromApplicationId),
+          text: tagTextForSection(completed=applicationValue(["completed", "english"]), copiedFromApplicationId=copiedFromApplicationId)
         }
       }, {
         text: "English as a foreign language assessment",
         href: applicationPath + "/english-language" + ("/review" if applicationValue(["englishLanguage"]) | length > 0),
         id: "english-language",
         tag: {
-          classes: tagClassesForSection(completed=applicationValue(["completed", "englishLanguage"]), apply2=apply2),
-          text: tagTextForSection(completed=applicationValue(["completed", "englishLanguage"]), apply2=apply2)
+          classes: tagClassesForSection(completed=applicationValue(["completed", "englishLanguage"]), copiedFromApplicationId=copiedFromApplicationId),
+          text: tagTextForSection(completed=applicationValue(["completed", "englishLanguage"]), copiedFromApplicationId=copiedFromApplicationId)
         }
       } if international, {
         text: "Maths GCSE or equivalent",
         href: applicationPath + "/gcse/maths" + ("/review" if applicationValue(["gcse", "maths"]) | length > 0),
         id: "maths-gcse",
         tag: {
-          classes: tagClassesForSection(completed=applicationValue(["completed", "maths"]), apply2=apply2),
-          text: tagTextForSection(completed=applicationValue(["completed", "maths"]), apply2=apply2)
+          classes: tagClassesForSection(completed=applicationValue(["completed", "maths"]), copiedFromApplicationId=copiedFromApplicationId),
+          text: tagTextForSection(completed=applicationValue(["completed", "maths"]), copiedFromApplicationId=copiedFromApplicationId)
         }
       }, {
         text: "Science GCSE or equivalent",
         href: applicationPath + "/gcse/science" + ("/review" if applicationValue(["gcse", "science"]) | length > 0),
         id: "science-gcse",
         tag: {
-          classes: tagClassesForSection(completed=applicationValue(["completed", "science"]), apply2=apply2),
-          text: tagTextForSection(completed=applicationValue(["completed", "science"]), apply2=apply2)
+          classes: tagClassesForSection(completed=applicationValue(["completed", "science"]), copiedFromApplicationId=copiedFromApplicationId),
+          text: tagTextForSection(completed=applicationValue(["completed", "science"]), copiedFromApplicationId=copiedFromApplicationId)
         }
       } if hasPrimaryChoices() or applicationValue(["gcse", "science"]), {
         text: "Other qualifications" if international else "A levels and other qualifications",
@@ -264,16 +283,16 @@
         href: applicationPath + "/personal-statement" + ("/review" if applicationValue(["personalStatement"]) | length > 0),
         id: "personal-statement",
         tag: {
-          classes: tagClassesForSection(completed=applicationValue(["completed", "personalStatement"]),apply2=apply2),
-          text: tagTextForSection(completed=(applicationValue(["completed", "personalStatement"])),apply2=apply2)
+          classes: tagClassesForSection(completed=applicationValue(["completed", "personalStatement"]),copiedFromApplicationId=copiedFromApplicationId),
+          text: tagTextForSection(completed=(applicationValue(["completed", "personalStatement"])),copiedFromApplicationId=copiedFromApplicationId)
         }
       }, {
         text: "Your suitability to teach a subject or age group",
         href: applicationPath + "/subject-knowledge" + ("/review" if applicationValue(["subjectKnowledge"]) | length > 0),
         id: "subject-knowledge",
         tag: {
-          classes: tagClassesForSection(completed=(applicationValue(["completed", "subjectKnowledge"])),apply2=apply2),
-          text: tagTextForSection(completed=(applicationValue(["completed", "subjectKnowledge"])),apply2=apply2)
+          classes: tagClassesForSection(completed=(applicationValue(["completed", "subjectKnowledge"])),copiedFromApplicationId=copiedFromApplicationId),
+          text: tagTextForSection(completed=(applicationValue(["completed", "subjectKnowledge"])),copiedFromApplicationId=copiedFromApplicationId)
         }
       }]
     }) }}

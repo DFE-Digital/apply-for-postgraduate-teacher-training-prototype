@@ -121,6 +121,82 @@ module.exports = (nunjucksAppEnv, app) => {
       return utils.hasPrimaryChoices(req)
     })
 
+    // Returns true if there is an application in the unsubmitted state
+    nunjucksAppEnv.addGlobal('hasDraftApplication', () => {
+      return Boolean(utils.toArray(req.session.data.applications)
+        .find(application => application.status == 'started'))
+    })
+
+    // Returns number of courses that have ever been applied to, regardless of state
+    nunjucksAppEnv.addGlobal('totalNumberOfChoices', () => {
+      let numberOfChoices = 0
+
+      for (application of utils.toArray(req.session.data.applications)) {
+        numberOfChoices += utils.toArray(application.choices)
+      }
+
+      return numberOfChoices
+    })
+
+    // Returns choices where an offer has been made, but not accepted or declined yet.
+    nunjucksAppEnv.addGlobal('choicesWithOfferReceived', () => {
+      let choices = []
+
+      for (application of utils.toArray(req.session.data.applications)) {
+        for (choice of utils.toArray(application.choices)) {
+          if (choice.status == 'Offer received') {
+            choices.push(choice)
+          }
+        }
+      }
+
+      return choices
+    })
+
+    // Returns the choices awaiting a decision from the provider
+    nunjucksAppEnv.addGlobal('choicesAwaitingDecision', () => {
+      let choices = []
+
+      for (application of utils.toArray(req.session.data.applications)) {
+        for (choice of utils.toArray(application.choices)) {
+          if (choice.status == 'Awaiting decision') {
+            choices.push(choice)
+          }
+        }
+      }
+
+      return choices
+    })
+
+    // Returns the accepted offer if there is one, regardless of whether
+    // there are conditions that need to be met, or if the offer has been deferred
+    nunjucksAppEnv.addGlobal('acceptedChoice', () => {
+      return utils.acceptedChoice(req)
+    })
+
+    nunjucksAppEnv.addGlobal('pendingChoices', () => {
+      return utils.pendingChoices(req)
+    })
+
+    nunjucksAppEnv.addGlobal('choicesAwaitingProviderDecision', () => {
+      return utils.choicesAwaitingProviderDecision(req)
+    })
+
+    // Returns all choices as a flattened list
+    nunjucksAppEnv.addGlobal('allChoices', () => {
+      return utils.allChoices(req)
+    })
+
+    // Returns all submitted choices (excluding those on draft applications)
+    nunjucksAppEnv.addGlobal('submittedChoices', () => {
+      return utils.submittedChoices(req)
+    })
+
+    // Returns all unsubmitted choices on draft applications
+    nunjucksAppEnv.addGlobal('submittedChoices', () => {
+      return utils.submittedChoices(req)
+    })
+
     next()
   })
 }

@@ -18,24 +18,22 @@
   {% set hasFeedbackFromPreviousApplication = false %}
   {% set feedbackFromPreviousApplications = "" %}
 
-  {% if applicationValue(["apply2"]) %}
-    {% for previousApplicationId in applicationValue("previousApplications") %}
-      {% for item in (data.applications[previousApplicationId].choices | toArray) %}
+  {% if applicationValue(["copiedFromApplicationId"]) %}
+    {% for item in (data.applications[applicationValue(["copiedFromApplicationId"])].choices | toArray) %}
 
-        {% if item.feedback and item.feedback.qualityOfApplication and item.feedback.qualityOfApplication.subjectKnowledge %}
+      {% if item.feedback and item.feedback.qualityOfApplication and item.feedback.qualityOfApplication.subjectKnowledge %}
 
-          {% set hasFeedbackFromPreviousApplication = true %}
-          {% set feedbackFromPreviousApplications %}
-            {{ feedbackFromPreviousApplications | safe }}
+        {% set hasFeedbackFromPreviousApplication = true %}
+        {% set feedbackFromPreviousApplications %}
+          {{ feedbackFromPreviousApplications | safe }}
 
-            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">{{ providers[item.providerCode].name }}</h3>
-            <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
-              <p class="govuk-body">“{{ item.feedback.qualityOfApplication.subjectKnowledge | safe }}”</p>
-            </blockquote>
-          {% endset %}
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-2">{{ providers[item.providerCode].name }}</h3>
+          <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
+            <p class="govuk-body">“{{ item.feedback.qualityOfApplication.subjectKnowledge | safe }}”</p>
+          </blockquote>
+        {% endset %}
 
-        {% endif %}
-      {% endfor %}
+      {% endif %}
     {% endfor %}
   {% endif %}
 

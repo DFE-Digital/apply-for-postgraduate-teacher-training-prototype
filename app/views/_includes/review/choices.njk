@@ -21,7 +21,8 @@
 
 
     {% set canWithdraw =
-      (item.status != "Offer received")
+      (application.status == 'submitted')
+      and (item.status != "Offer received")
       and (item.status != "Offer declined")
       and (item.status != "Application not sent")
       and (item.status != "Unsuccessful")

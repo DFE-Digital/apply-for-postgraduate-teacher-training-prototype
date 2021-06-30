@@ -1,8 +1,6 @@
 {% extends "_content.njk" %}
 
-{% set choices = application.choices | toArray %}
-
-{% if choices | length > 1  %}
+{% if (allChoices() | length) > 1 or (data.applications | length) > 1  %}
   {% set title = "Your applications" %}
 {% else %}
   {% set title = "Your application" %}
@@ -10,12 +8,6 @@
 
 {% set hasSecondary = true %}
 {% set applicationPath = "/application/" + applicationId %}
-
-{% if applicationStatus %}
-  {% set referrer = "/dashboard/" + applicationId + "/" + applicationStatus %}
-{% else %}
-  {% set referrer = "/dashboard/" + applicationId %}
-{% endif %}
 
 {% block beforePrimary %}
 {% if confirmation == "true" %}
@@ -26,15 +18,22 @@
 
 {% block primary %}
 
-  {% if canMakeDecision == true %}
+  {% include "dashboard/_guidance.njk" %}
+
+  {% if (choicesWithOfferReceived() | length) > 0 %}
     {% include "dashboard/_respond-to-offer.njk" %}
-  {% elif endedWithoutSuccess == true %}
+  {% elif (pendingChoices() | length == 0) and (submittedChoices() | length > 0) and not acceptedChoice() and not hasDraftApplication() %}
     {% include "dashboard/_apply-again.njk" %}
-  {% else %}
-    {% include "dashboard/_guidance.njk" %}
+
+  {% elif hasDraftApplication() == false and pendingChoices() | length < 3 and not acceptedChoice() %}
+    {% include "dashboard/_apply-for-another-course.njk" %}
   {% endif %}
 
-  {% include "dashboard/_course-choices.njk" %}
+  {% if hasDraftApplication() %}
+    {% include "dashboard/_unsubmitted.njk" %}
+  {% endif %}
+
+  {% include "dashboard/_pending_applications.njk" %}
 
   <h2 class="govuk-heading-m">Updating your contact information</h2>
   <p class="govuk-body">To update your contact information, email us at <a href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a>.</p>

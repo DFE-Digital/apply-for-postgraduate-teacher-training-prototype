@@ -5,14 +5,14 @@
 
 {% block pageNavigation %}
   {{ govukBackLink({
-    href: "/dashboard/" + applicationId
+    href: "/dashboard/"
   }) }}
 {% endblock %}
 
 {% block primary %}
   {% include "_includes/item/offer.njk" %}
 
-  <p class="govuk-body">If you withdraw this course choice{% if not applicationValue('apply2') %} (and all your other course choices){% endif %} you can still apply for more courses this&nbsp;year.</p>
+  <p class="govuk-body">If you withdraw this course choice (and all your other course choices) you can still apply for more courses this&nbsp;year.</p>
 
   {{ govukButton({
     classes: "govuk-button--warning",

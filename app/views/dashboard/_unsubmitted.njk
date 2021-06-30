@@ -1,0 +1,43 @@
+{% for application in data.applications | toArray %}
+  {% if application.status == 'started' %}
+
+    {% set actionsHtml %}
+      <p class="govuk-body"><a href="/application/{{ application.id }}">Continue this application</a></p>
+    {% endset %}
+
+    {% set statusHtml %}
+      {{ govukTag({
+        classes: "govuk-tag--blue",
+        text: "DRAFT"
+      }) }}
+    {% endset %}
+
+    {% set summaryBodyHtml %}
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-bottom-0",
+        rows: [{
+          key: {
+            text: "Status"
+          },
+          value: {
+            html: statusHtml | safe
+          }
+        },
+        {
+          key: {
+            classes: "govuk-visually-hidden",
+            text: "Actions"
+          },
+          value: {
+            html: actionsHtml | safe
+          }
+        }]
+      }) }}
+    {% endset %}
+
+    {{ appSummaryCard({
+      classes: "app-course-choice govuk-!-margin-bottom-6",
+      html: summaryBodyHtml
+    }) }}
+  {% endif %}
+{% endfor %}

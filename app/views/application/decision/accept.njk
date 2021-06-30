@@ -12,15 +12,10 @@
 {% block primary %}
   {% include "_includes/item/offer.njk" %}
 
-  {% if applicationValue('apply2') %}
-    <p class="govuk-body">By accepting this offer you confirm that you have not accepted any other offers of teacher training places (for example through UCAS Teacher Training).</p>
-  {% else %}
-    <p class="govuk-body">By accepting this offer, you confirm that:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>you understand any other applications made through Apply for teacher training will be automatically withdrawn</li>
-      <li>you have not accepted any other offers of teacher training places (for example through UCAS Teacher Training)</li>
-    </ul>
-  {% endif %}
+  <p class="govuk-body">By accepting this offer, you confirm that:</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>you understand any other applications made through Apply for teacher training will be automatically withdrawn</li>
+  </ul>
 
   {{ govukButton({
     text: "Accept offer",

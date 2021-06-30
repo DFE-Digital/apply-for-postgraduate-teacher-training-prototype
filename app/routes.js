@@ -34,6 +34,9 @@ require('./routes/emails')(router)
 require('./routes/send-email')(router)
 require('./routes/survey')(router)
 
+// Routes used to set up application states
+require('./routes/admin/state')(router)
+
 // Clear all data in session if you open /admin/clear-data
 router.post('/admin/clear-data', function (req, res) {
   req.session.data = {}

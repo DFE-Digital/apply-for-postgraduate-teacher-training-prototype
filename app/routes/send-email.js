@@ -53,6 +53,13 @@ module.exports = router => {
     const application = utils.applicationData(req)
     const candidateName = application.givenName || 'applicant'
 
+    // Update state of application and choices
+    application.status = 'submitted'
+
+    for (choice of utils.toArray(application.choices)) {
+      choice.status = 'Awaiting decision'
+    }
+
     const choices = []
     for (const choice in application.choices) {
       const { courseCode, providerCode } = application.choices[choice]
@@ -183,7 +190,7 @@ module.exports = router => {
     if (decision === 'withdraw') {
       res.redirect(`/application/${applicationId}/${choiceId}/withdraw/confirmation`)
     } else {
-      res.redirect(`/dashboard/${applicationId}`)
+      res.redirect(`/dashboard`)
     }
   })
 }

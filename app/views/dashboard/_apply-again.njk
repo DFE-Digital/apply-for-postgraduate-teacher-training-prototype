@@ -7,7 +7,7 @@
     {% elif numberOfApplicationsWithdrawn > 0 %}
       You’ve withdrawn your {{ "application" if numberOfApplicationsWithdrawn == 1 else "applications" }}
     {% else %}
-      Your {{ "application was" if (choices | length) == 1 else "applications were"}} unsuccessful
+      Your {{ "application was" if (submittedChoices() | length) == 1 else "applications were"}} unsuccessful
     {% endif %}
   </h2>
 
@@ -15,10 +15,11 @@
 
   <p class="govuk-body">To talk about your options, get in touch with a <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training adviser</a>.</p>
 
-  {{ govukButton({
-    text: "Apply again",
-    href: "/application/" + applicationId + "/apply2"
-  }) }}
+  <form action="/application/apply-again" method="POST">
+    {{ govukButton({
+      text: "Apply again"
+    }) }}
+  </form>
 {% endset %}
 
 {{ govukInsetText({

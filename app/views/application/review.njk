@@ -30,7 +30,7 @@
 
 {% block primary %}
   <section class="app-section">
-    <h2 class="govuk-heading-m govuk-!-font-size-27">{{ "Course" if applicationValue(["apply2"]) else "Courses" }}</h2>
+    <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
     {% if not closed %}
       {% set choices = applicationValue(["choices"]) | toArray %}
       {% set showChoiceStatus = false %}
