@@ -1,5 +1,12 @@
 {% if item.feedback.course_full %}
 <p class="govuk-body">The course you applied to was full.</p>
+
+<p class="govuk-body">There are still <a href="https://www.find-postgraduate-teacher-training.service.gov.uk/results?c=England&fulltime=false&hasvacancies=true&l=1&lat=51.5073509&lng=-0.1277583&loc=London%2C+UK&lq=London&parttime=false&qualifications%5B%5D=QtsOnly&qualifications%5B%5D=PgdePgceWithQts&qualifications%5B%5D=Other&rad=50&senCourses=false&sortby=2&subjects%5B%5D=31" class="govuk-link">121 English courses open</a> in your area.</p>
+
+<div class="govuk-!-margin-top-4">
+  {{ govukButton({ text: "Apply to another course", classes: "govuk-!-margin-bottom-0" })}}
+</div>
+
 {% endif %}
 
 {% if item.feedback.rejected_by_default %}

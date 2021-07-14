@@ -406,6 +406,13 @@ module.exports = router => {
         application.choices = [choices.ZYXWV]
         break
 
+      case 'one-rejection-course-full':
+        choices.ABCDE.status = 'Unsuccessful'
+        choices.ABCDE.feedback = {
+          course_full: true
+        }
+        break
+
       case 'awaiting-apply-again-response':
         choices.ABCDE.status = 'Awaiting decision'
         req.session.data.applications['12345'].choices.ABCDE.status = 'Unsuccessful'
