@@ -1,5 +1,7 @@
 {% set complete = choices | length > 0 %}
 {% if complete %}
+
+
   {% for item in choices %}
     {% set provider = providers[item.providerCode] %}
     {% set course = provider.courses[item.courseCode] %}
@@ -28,6 +30,7 @@
       and (item.status != "Offer withdrawn")
       and (item.status != "Application withdrawn")
       and (item.status != "Conditions not met")
+      and (item.status != nil)
     %}
 
     {{ appSummaryCard({

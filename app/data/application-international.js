@@ -32,7 +32,8 @@ module.exports = {
       studyMode: 'Full time',
       type: 'PGCE with QTS full time',
       length: '1 year',
-      starts: '2021-09'
+      starts: '2021-09',
+      canSponsorVisa: true
     },
     FGHIJ: {
       courseCode: '2VLT',
@@ -42,7 +43,8 @@ module.exports = {
       studyMode: 'Full time',
       type: 'PGCE with QTS full time',
       length: '1 year',
-      starts: '2021-09'
+      starts: '2021-09',
+      canSponsorVisa: false
     },
     ZYXWV: {
       courseCode: 'X100',
@@ -52,7 +54,8 @@ module.exports = {
       studyMode: 'Full time',
       type: 'PGCE with QTS full time',
       length: '1 year',
-      starts: '2021-09'
+      starts: '2021-09',
+      canSponsorVisa: true
     }
   },
   references: {
@@ -121,9 +124,9 @@ module.exports = {
       year: '1988'
     },
     nationality: ['Other'],
-    otherNationality1: 'Indian',
+    otherNationality1: 'French',
     residencyDisclose: 'I have the right to work or study in the UK',
-    residency: 'I will need to apply for permission to work or study in the UK'
+    residency: 'I have EU Settled Status'
   },
   contactInformation: {
     tel: '07944 386555',

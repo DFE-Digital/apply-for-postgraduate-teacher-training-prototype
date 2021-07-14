@@ -1,7 +1,6 @@
-{% extends "_form.njk" %}
+{% extends "_layout.njk" %}
 
 {% set formaction = referrer or "/application/" + applicationId + "/personal-information/review" %}
-{% set title = "Your right to work or study in the UK" %}
 
 {% block pageNavigation %}
   {{ govukBackLink({
@@ -9,54 +8,55 @@
   }) }}
 {% endblock %}
 
-{% block primary %}
+{% block content %}
 
-<p class="govuk-body">To get help with student visas and your immigration status, speak to a <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training adviser</a>.</p>
-<h2 class="govuk-heading-m">Getting a visa through your training provider</h2>
-<p class="govuk-body">You may be able to get a visa through your teacher training provider. This is called sponsoring a student visa.</p>
-<p class="govuk-body">It depends on what type of training provider they are and if they have a student visa sponsor licence.</p>
-<p class="govuk-body">Universities providing initial teacher training can usually sponsor student visas for courses without a salary.</p>
-<p class="govuk-body">State funded schools, including School Centred Initial Teacher Training (SCITT) providers, cannot sponsor student visas for courses without a salary.</p>
-<p class="govuk-body">Contact your chosen training provider if you're not sure if they are university or a SCITT.</p>
-<p class="govuk-body"><a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-students">Check if a provider has a student visa sponsor licence</a>.</p>
-<p class="govuk-body">Find out more about <a href="https://beta-getintoteaching.education.gov.uk/international-candidates">visa options for international trainees</a>.</p>
+  <form{% if formaction %} action="{{ formaction }}"{% endif %} method="post">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
 
-  {% set rightToWorkStudy %}
-    {{ govukCharacterCount({
-      label: {
-        html: "What is your immigration status?"
-      },
-      hint: {
-        text: "For example, “I have settled status” or “I have permanent residence”."
-      },
-      maxwords: 200,
-      rows: 5
-    } | decorateApplicationAttributes(["candidate", "residency"])) }}
-  {% endset -%}
+        {% set rightToWorkStudy %}
+          {{ govukCharacterCount({
+            label: {
+              html: "What is your immigration status?"
+            },
+            hint: {
+              text: "For example, “I have settled status” or “I have permanent residence”."
+            },
+            maxwords: 200,
+            rows: 5
+          } | decorateApplicationAttributes(["candidate", "residency"])) }}
+        {% endset -%}
 
-  {{ govukRadios({
-    fieldset: {
-      legend: {
-        text: "Do you already have the right to work or study in the UK?",
-        classes: "govuk-label--m"
-      },
-      attributes: {
-        "data-module": "clear-hidden"
-      }
-    },
-    items: [{
-      value: "I have the right to work or study in the UK",
-      text: "Yes",
-      conditional: {
-        html: rightToWorkStudy
-      }
-    }, {
-      value: "I will need to apply for permission to work or study in the UK",
-      text: "Not yet, or not sure"
-    }]
-  } | decorateApplicationAttributes(["candidate", "residencyDisclose"])) }}
+        {{ govukRadios({
+          fieldset: {
+            legend: {
+              text: "Do you have the right to work or study in the UK?",
+              classes: "govuk-label--xl",
+              isPageHeading: true
+            },
+            attributes: {
+              "data-module": "clear-hidden"
+            }
+          },
+          hint: {
+            html: "To get help with student visas and your immigration status, speak to a <a href=\"https://beta-adviser-getintoteaching.education.gov.uk/\">teacher training adviser</a>"
+          },
+          items: [{
+            value: "I have the right to work or study in the UK",
+            text: "Yes",
+            conditional: {
+              html: rightToWorkStudy
+            }
+          }, {
+            value: "I will need to apply for permission to work or study in the UK",
+            text: "Not yet, or not sure"
+          }]
+        } | decorateApplicationAttributes(["candidate", "residencyDisclose"])) }}
 
-  {{ govukButton({
-    text: "Save and continue"
-  }) }}
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      </div>
+    </div>
+  </form>
 {% endblock %}
