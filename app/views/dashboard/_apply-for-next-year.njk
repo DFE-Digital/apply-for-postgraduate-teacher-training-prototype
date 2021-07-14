@@ -1,0 +1,27 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set applyAgainHtml %}
+  <h2 class="govuk-heading-m">
+    {% if numberOfOffersDeclined > 0 %}
+      You’ve declined {{ "your offer" if numberOfOffersDeclined == 1 else "all of your offers" }}.
+    {% elif numberOfApplicationsWithdrawn > 0 %}
+      You’ve withdrawn your {{ "application" if numberOfApplicationsWithdrawn == 1 else "applications" }}
+    {% else %}
+      Your {{ "application was" if (choices | length) == 1 else "applications were"}} unsuccessful
+    {% endif %}
+  </h2>
+
+  <p class="govuk-body">You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.</p>
+
+  <p class="govuk-body">You can apply for courses starting in the 2022 to 2023 academic year instead.</p>
+
+  {{ govukButton({
+    text: "Apply again",
+    href: "/application/" + applicationId + "/apply2"
+  }) }}
+{% endset %}
+
+{{ govukInsetText({
+  html: applyAgainHtml,
+  classes: "govuk-!-margin-top-0"
+}) }}

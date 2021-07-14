@@ -29,7 +29,11 @@
   {% if canMakeDecision == true %}
     {% include "dashboard/_respond-to-offer.njk" %}
   {% elif endedWithoutSuccess == true %}
-    {% include "dashboard/_apply-again.njk" %}
+    {% if application.cycleDeadlinePassed == true %}
+      {% include "dashboard/_apply-for-next-year.njk" %}
+    {% else %}
+      {% include "dashboard/_apply-again.njk" %}
+    {% endif %}
   {% else %}
     {% include "dashboard/_guidance.njk" %}
   {% endif %}

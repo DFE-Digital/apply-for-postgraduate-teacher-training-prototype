@@ -412,6 +412,18 @@ module.exports = router => {
         req.session.data.applications['12345'].choices.FGHIJ.status = 'Unsuccessful'
         req.session.data.applications['12345'].choices.ZYXWV.status = 'Unsuccessful'
         break
+
+      case 'end-of-cycle-unsuccessful':
+        req.session.data.applications['45678'].cycleDeadlinePassed = true
+        choices.ABCDE.status = 'Unsuccessful'
+        choices.ABCDE.hasFeedback = true
+        choices.ABCDE.feedback = {
+          qualityOfApplication: {
+            personalStatement: 'Contained several spelling mistakes and grammatical errors.\n\nThe candidate should describe the impact they want to have on their students in more detail.',
+            other: 'Candidate was not able to demonstrate sufficient experience of working with children.'
+          }
+        }
+        break
     }
 
     // TODO: refactor these counts

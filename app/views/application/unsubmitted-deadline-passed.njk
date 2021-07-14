@@ -1,0 +1,20 @@
+{% extends "_layout.njk" %}
+
+{% set title = "Continue your application" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">{{ title }}</h1>
+
+      <p class="govuk-body">You started an application for courses starting in the 2021 to 2022 academic year, which have now closed.</p>
+
+      <p class="govuk-body">Continue your application to apply for courses starting in the 2022 to 2023 academic year instead.</p>
+
+      {{ govukButton({
+        text: "Continue",
+        href: "/application/" + applicationId + "/apply2?from=unsubmitted"
+      }) }}
+    </div>
+  </div>
+{% endblock %}

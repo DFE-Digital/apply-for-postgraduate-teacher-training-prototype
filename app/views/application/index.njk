@@ -46,7 +46,7 @@
   }) if showCopiedBanner }}
 
   {{ govukNotificationBanner({
-    html: "<h2 class=\"govuk-notification-banner__heading\">Applications for courses starting this year have now closed</h2><p class=\"govuk-body\">Submit your application from 13 October for courses starting in 2021.</p>"
+    html: "<h2 class=\"govuk-notification-banner__heading\">Applications for courses starting this year have now closed</h2><p class=\"govuk-body\">Submit your application from 13 October for courses starting in 2022.</p>"
   }) if closed }}
 {% endblock %}
 
@@ -81,7 +81,7 @@
       <p class="govuk-body">You can apply to 1 course at a time at this stage of your application.</p>
     {% else %}
       <h2 class="govuk-heading-m govuk-!-font-size-27">Courses</h2>
-      {% if closed == "true" %}
+      {% if findNotOpen == "true" %}
         <p class="govuk-body">You can apply for courses from 13 October.</p>
       {% else %}
         <p class="govuk-body">You can apply for up to 3 courses.</p>
@@ -104,7 +104,7 @@
           text: tagTextForSection(completed=applicationValue(["completed", "choices"]))
         }
       }]
-    }) if not closed }}
+    }) if not findNotOpen }}
   </section>
 
   <section class="govuk-!-margin-bottom-8">
@@ -318,12 +318,19 @@
   </section>
 
   <section>
-    <h2 class="govuk-heading-m govuk-!-font-size-27">Review and send</h2>
-    <p class="govuk-body">Review and send your application to your training providers.</p>
+    {% if cycleNotOpen == "true" %}
+      <h2 class="govuk-heading-m govuk-!-font-size-27">Review</h2>
+      <p class="govuk-body">You cannot submit your application until 15 June 2021. You can keep making changes to the rest of your application until then.</p>
+    {% else %}
+      <h2 class="govuk-heading-m govuk-!-font-size-27">Review and send</h2>
+      <p class="govuk-body">Review and send your application to your training providers.</p>
+    {% endif %}
+
     {{ govukButton({
       text: "Review your application",
       href: applicationPath + "/review"
     }) }}
+
   </section>
 
 {% endblock %}
